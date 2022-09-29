@@ -6,7 +6,7 @@ import json
 import csv
 import pandas as pd
 url = "https://realty-in-us.p.rapidapi.com/properties/v3/list"
-labels = ["status", "longitude", "latitude", "house_type", "beds", "baths", "full_baths", "price_reduced", "new_construction", "foreclosure", "plans", "new_listing", "is_coming_soon", "is_contingent", "is_pending",
+labels = ["status", "longitude", "latitude", "house_type", "beds", "baths", "sqft", "lot_sqft", "full_baths", "price_reduced", "new_construction", "foreclosure", "plans", "new_listing", "is_coming_soon", "is_contingent", "is_pending",
 "price_reduced_amount", "days_since_last_sold", "days_since_list_date", "last_sold_prices", "list_prices"]
 data = []
 page = 0
@@ -81,21 +81,26 @@ while page < 20:
         days_since_last_sold = (date.today() - last_sold_date).days # days since last sold 
         list_date = date(int(home['list_date'][0:4]), int(home['list_date'][5:7]), int(home['list_date'][8:10])) # list date as date object
         days_since_list_date = (lambda x: 0 if status != 1 else (date.today() - list_date).days)(status) # days since list date only if the property is for sale 
-        last_sold_price = home['last_sold_price']# the price at which the property was last sold 
+        
+        if not home['last_sold_price']:
+            last_sold_price = home['list_price']
+        else:
+            last_sold_price = home['last_sold_price']# the price at which the property was last sold 
         list_price = home['list_price']
         #estimate = home['estimate']['estimate']
 
         # append all of the home values to lists
-        house_data = [status, longitude, latitude, house_type, bed, bath, full_bath, is_price_reduced, is_new_construction, is_foreclosure, is_plan, is_new_listing, is_coming_soon, is_contingent, is_pending, price_reduced_amount, days_since_last_sold, days_since_list_date, last_sold_price, list_price]
+        house_data = [status, longitude, latitude, house_type, bed, bath, sqft, lot_sqft, full_bath, is_price_reduced, is_new_construction, is_foreclosure, is_plan, is_new_listing, is_coming_soon, is_contingent, is_pending, price_reduced_amount, days_since_last_sold, days_since_list_date, last_sold_price, list_price]
         data.append(house_data)
     page += 1
+    print (page)
 
 
+#create a csv file with the data
 filename = "house_data.csv"
+
 with open(filename, 'w') as csvfile: 
     # writing the data to a csv file 
     csvwriter = csv.writer(csvfile) 
     csvwriter.writerow(labels) 
     csvwriter.writerows(data)
-df = pd.read_csv("data.csv")
-df.head(10)
