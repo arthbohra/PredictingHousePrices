@@ -33,11 +33,31 @@ while page < 20:
     #iterate through the various homes 
 
     for home in homes:
-        status = (lambda s: 1 if s == "for sale" else 0)(home['status']) # assign status to 1 if its on sale, 2 otherwise
+        status = (lambda s: 1 if s == "for_sale" else 0)(home['status']) # assign status to 1 if its on sale, 2 otherwise
+
         latitude = home['location']['address']['coordinate']['lat'] # the latitude of the home 
         longitude = home['location']['address']['coordinate']['lon'] # the longitude of the home 
         description = home['description'] # description of the home 
-        house_type = description['type'] # what kind of home style the house belongs to. eg. family home 
+
+        #what kind of house is it?
+        if description['type'] == "single_family":
+            house_type = 1
+        if description['type'] == "townhomes":
+            house_type = 2
+        if description['type'] == "condos":
+            house_type = 3
+        else:
+            house_type == 0
+        
+        #sqft of house 
+        sqft = description["sqft"]
+
+        #sqft of lot 
+        if not description["lot_sqft"]:
+            lot_sqft = 0
+        else:
+            lot_sqft = description["lot_sqft"]
+    
         bed = description['beds'] # number of beds
         bath = description['baths'] # number of bathrooms
         full_bath = description['baths_full'] # number of full bathrooms
