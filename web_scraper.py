@@ -3,7 +3,8 @@ import types
 import requests
 from datetime import date
 import json 
-
+import csv
+import pandas as pd
 url = "https://realty-in-us.p.rapidapi.com/properties/v3/list"
 
 payload = {
@@ -26,27 +27,9 @@ homes = json.loads(requests.request("POST", url, json=payload, headers=headers).
 print (len(homes))
 #iterate through the various homes 
 
-labels = []
-statuses = []
-longitudes = []
-latitudes = []
-house_types = []
-beds = []
-baths = []
-full_baths = []
-is_price_reduceds = []
-is_new_constructions = []
-is_foreclosures = []
-is_plans = []
-is_new_listings = []
-is_coming_soons = []
-is_contigents = []
-is_pendings = []
-price_reduced_amounts = []
-days_since_last_solds = []
-days_since_list_dates = []
-last_sold_prices = []
-list_prices = []
+labels = ["status", "longitude", "latitude", "house_type", "beds", "baths", "full_baths", "price_reduced", "new_construction", "foreclosure", "plans", "new_listing", "is_coming_soon", "is_contingent", "is_pending",
+"price_reduced_amount", "days_since_last_sold", "days_since_list_date", "last_sold_prices", "list_prices"]
+data = []
 for home in homes:
 
     status = (lambda s: 1 if s == "for sale" else 0)(home['status']) # assign status to 1 if its on sale, 2 otherwise
@@ -79,23 +62,15 @@ for home in homes:
     #estimate = home['estimate']['estimate']
 
     # append all of the home values to lists
-    statuses.append(status)
-    longitudes.append(longitude)
-    latitudes.append(latitude)
-    house_types.append(house_type)
-    beds.append(bed)
-    baths.append(bath) 
-    full_baths.append(full_bath)
-    is_price_reduceds.append(is_price_reduced) 
-    is_new_constructions.append(is_new_construction)
-    is_foreclosures.append(is_foreclosure)
-    is_plans.append(is_plan)
-    is_new_listings.append(is_new_listing)
-    is_coming_soons.append(is_coming_soon)
-    is_contigents.append(is_contingent)
-    is_pendings.append(is_pending)
-    price_reduced_amounts.append(price_reduced_amount)
-    days_since_last_solds.append(days_since_last_sold) 
-    days_since_list_dates.append(days_since_list_date) 
-    last_sold_prices.append(last_sold_price)
-    list_prices.append(list_price)
+    house_data = [status, longitude, latitude, house_type, bed, bath, full_bath, is_price_reduced, is_new_construction, is_foreclosure, is_plan, is_new_listing, is_coming_soon, is_contingent, is_pending, price_reduced_amount, days_since_last_sold, days_since_list_date, last_sold_price, list_price]
+    data.append(house_data)
+
+
+filename = "data.csv"
+with open(filename, 'w') as csvfile: 
+    # writing the data to a csv file 
+    csvwriter = csv.writer(csvfile) 
+    csvwriter.writerow(labels) 
+    csvwriter.writerows(data)
+df = pd.read_csv("data.csv")
+df.head(10)
