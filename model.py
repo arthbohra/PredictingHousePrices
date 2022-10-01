@@ -11,7 +11,7 @@ X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_s
 
 #Trained the following models to determine which was the most accurate to our dataset
 #Decided on a Random Forest Classifier as it resulted in the best accuracy score
-models = [LinearRegression()]
+models = [linear_model.LinearRegression()]
 for model in models:
     fit = model.fit(X_train, y_train)
     y_pred = fit.predict(X_test)
