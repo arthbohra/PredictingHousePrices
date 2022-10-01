@@ -3,11 +3,11 @@ from sklearn import model_selection
 from sklearn.linear_model import LinearRegression 
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error, mean_absolute_error
-import numpy as np 
+import numpy as np
 from sklearn import linear_model
 import os
 
-data = pd.read_csv('house_data.csv')
+data = pd.read_csv('/Users/dhemath_reddy/Desktop/House-Price/PredictingHousePrices/house_data.csv')
 X = data[['status', 'longitude', 'latitude', 'house_type', 'beds', 'baths', 'sqft', 'lot_sqft', 'full_baths', 'price_reduced', 'new_construction',  'new_listing', 'price_reduced_amount', 'days_since_last_sold', 'days_since_list_date', 'last_sold_prices']]
 y = data['list_prices']
 X_train, X_test, y_train, y_test = model_selection.train_test_split(X, y, test_size=0.12, random_state=31)
@@ -19,8 +19,8 @@ while(check) :
     x = []
     
     x.append(float(input("Enter if your house is on sale. (1 = Yes, 0 = No)\n")))
-    x.append(float(input("Enter your house longitude\n")))
-    x.append(float(input("Enter your house latitude\n")))
+    x.append(float(input("Enter your house longitude (decimal) \n")))
+    x.append(float(input("Enter your house latitude (decimal) \n")))
     x.append(float(input("Enter your house type. (0 = other, 1 = single_family, 2 = townhomes, 3 = condos)\n")))
     x.append(float(input("Enter the number of beds\n")))
     x.append(float(input("Enter the number of bathrooms\n")))
