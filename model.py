@@ -4,6 +4,7 @@ from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score
 from sklearn.metrics import mean_squared_error, mean_absolute_error
 import numpy as np 
+from sklearn import linear_model
 data = pd.read_csv('house_data.csv')
 X = data[['status', 'longitude', 'latitude', 'house_type', 'beds', 'baths', 'sqft', 'lot_sqft', 'full_baths', 'price_reduced', 'new_construction',  'new_listing', 'price_reduced_amount', 'days_since_last_sold', 'days_since_list_date', 'last_sold_prices']]
 y = data['list_prices']
