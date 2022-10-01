@@ -49,5 +49,5 @@ while(check) :
     print('\n')
     y = (int(input("Would you like to run the program again? (0 = Yes, 1 = No)\n")))
     os.system('clear')
-    if y==1:
+    if y == 1:
         check=False
