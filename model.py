@@ -16,8 +16,8 @@ models = [linear_model.LinearRegression()]
 for model in models:
     fit = model.fit(X_train, y_train)
     y_pred = fit.predict(X_test)
-    score=r2_score(y_test,y_pred)
-    print('r2 socre is ',score)
+    score = r2_score(y_test,y_pred)
+    print('r2 score is ', score)
     # model evaluation
     mean_squared_errors = mean_squared_error(y_test, y_pred) / y_test
     mean_absolute_errors = mean_absolute_error(y_test, y_pred) / y_test
